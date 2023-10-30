@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>WELCOME TO MY SIMPLE WEATER APP</h1>
+  <form class="form" method="post" action="/weather">
+    <label>enter any country or city</label><br>
+    <input type="text" class="input" placeholder="city or country">
+    <button type="submit" class="button">fetch</button>
+  </form>
+  <p class="result"></p>
+
+
+  <script>
+    const form = document.querySelector('.form');
+    const input = document.querySelector('.input');
+    const result = document.querySelector('.result');
+    const button = document.querySelector('.button');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const inputValue = input.value; 
+
+      fetch('http://localhost:5001/weather', {
+        method: 'POST',
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({city:inputValue})
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.main.temp);
+        result.innerHTML = data.main.temp;
+        
+      })
+      .catch(error => console.log('this is the error' + error))
+    })
+      
+
+  </script>
+
+</body>
+</html>
